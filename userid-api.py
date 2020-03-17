@@ -180,7 +180,7 @@ def login_logout(args, action, xapi, ips):
 
     entries = []
     attributes = ''
-    if args.login and args.timeout is not None:
+    if action == 'login' and args.timeout is not None:
         attributes += ' timeout="%s"' % args.timeout
     [entries.append(entry.format('user-' + str(x), x,
                                  attributes)) for x in ips]
@@ -215,12 +215,12 @@ def register_unregister(args, action, xapi, ips):
 
     members = []
     attributes = ''
-    if args.register and args.timeout is not None:
+    if action == 'register' and args.timeout is not None:
         attributes += ' timeout="%s"' % args.timeout
     [members.append(member.format(x, attributes)) for x in args.tags]
     entries = []
     attributes = ''
-    if args.register and args.persistent is not None:
+    if action == 'register' and args.persistent is not None:
         attributes += ' persistent="%d"' % args.persistent
     [entries.append(entry.format(str(x), attributes,
                                  ''.join(members))) for x in ips]
