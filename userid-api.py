@@ -82,7 +82,9 @@ def parse_args():
     parser.add_argument('--timeout',
                         type=int,
                         default=DEFAULT_TIMEOUT,
-                        help='ip-user timeout in minutes (default: %s)' %
+                        help='timeout for ip-user (minutes), '
+                        'registered-ip tags (seconds) '
+                        '(default: %s)' %
                         str(DEFAULT_TIMEOUT))
     parser.add_argument('--login',
                         action='store_true',
@@ -189,7 +191,7 @@ def login_logout(args, action, xapi, ips):
 
 def register_unregister(args, action, xapi, ips):
     member = '''\
-          <member>{0}</member>
+          <member{1}>{0}</member>
 '''
 
     entry = '''\
@@ -212,7 +214,10 @@ def register_unregister(args, action, xapi, ips):
 '''
 
     members = []
-    [members.append(member.format(x)) for x in args.tags]
+    attributes = ''
+    if args.register and args.timeout is not None:
+        attributes += ' timeout="%s"' % args.timeout
+    [members.append(member.format(x, attributes)) for x in args.tags]
     entries = []
     attributes = ''
     if args.register and args.persistent is not None:

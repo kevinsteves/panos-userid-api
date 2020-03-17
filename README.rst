@@ -64,7 +64,8 @@ Usage
       -n N                  number of ip mappings
       --net NET             starting network (default: 10.0.0.0/8)
       --chunk CHUNK         chunk size (default: 1024)
-      --timeout TIMEOUT     ip-user timeout in minutes (default: None)
+      --timeout TIMEOUT     timeout for ip-user (minutes), registered-ip tags
+                            (seconds) (default: None)
       --login               login users (ip-user)
       --logout              logout users
       --register            register tags (registered-ip)
