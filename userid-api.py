@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #
-# Copyright (c) 2017 Kevin Steves <kevin.steves@pobox.com>
+# Copyright (c) 2017-2020 Kevin Steves <kevin.steves@pobox.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -177,11 +177,11 @@ def login_logout(args, action, xapi, ips):
 '''
 
     entries = []
-    if args.timeout is not None:
-        timeout = ' timeout="%s"' % args.timeout
-    else:
-        timeout = ''
-    [entries.append(entry.format('user-' + str(x), x, timeout)) for x in ips]
+    attributes = ''
+    if args.login and args.timeout is not None:
+        attributes += ' timeout="%s"' % args.timeout
+    [entries.append(entry.format('user-' + str(x), x,
+                                 attributes)) for x in ips]
 
     cmd = uid_message.format(action, ''.join(entries))
     api_request(args, xapi, cmd)
@@ -214,11 +214,10 @@ def register_unregister(args, action, xapi, ips):
     members = []
     [members.append(member.format(x)) for x in args.tags]
     entries = []
-    if args.persistent is not None:
-        persistent = ' persistent="%d"' % args.persistent
-    else:
-        persistent = ''
-    [entries.append(entry.format(str(x), persistent,
+    attributes = ''
+    if args.register and args.persistent is not None:
+        attributes += ' persistent="%d"' % args.persistent
+    [entries.append(entry.format(str(x), attributes,
                                  ''.join(members))) for x in ips]
 
     cmd = uid_message.format(action, ''.join(entries))
